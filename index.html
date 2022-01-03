@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web-Midi Demo</title>
+  <link rel="shortcut icon" href="#">
+  <script type="module">
+    
+    /*
+     *  Simple use-case of WebMidi. Based in part on demos in the documentation:
+     *    https://webmidijs.org/docs/ 
+     */
+
+    import {WebMidi} from "./node_modules/webmidi/dist/esm/webmidi.esm.min.js";      
+
+    await WebMidi.enable();
+    onEnabled();
+  
+    function onEnabled() {
+  
+      // Display available MIDI input devices
+      if (WebMidi.outputs.length < 1) {
+        document.body.innerHTML+= "No device detected.";
+      } else {
+        WebMidi.outputs.forEach((device, index) => {
+          document.body.innerHTML+= `${index}: ${device.name} <br>`;
+        });
+      }
+
+      // Proof of concept: play middle C.
+      const output = WebMidi.getOutputByName("IAC Driver Bus 1");
+      const channel = output.channels[1];
+      channel.playNote("C3", {duration: 1000, time: "+1000"});
+      
+  
+    }
+    
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
