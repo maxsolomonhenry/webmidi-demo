@@ -33,8 +33,9 @@
       // Proof of concept: play middle C.
       const output = WebMidi.getOutputByName("IAC Driver Bus 1");
       const channel = output.channels[1];
-      channel.playNote("C3", {duration: 1000, time: "+1000"});
-      
+      channel.sendControlChange(3, 0);
+      channel.playNote("C3", {duration: 2000, time: "+1000"});
+      channel.sendControlChange(3, 127, {time: "+2000"});    
   
     }
     
